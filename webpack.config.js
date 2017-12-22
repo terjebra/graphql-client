@@ -24,7 +24,8 @@ const plugins = [
     "process.env": {
       NODE_ENV: JSON.stringify(nodeEnv)
     },
-    GRAPHQL_ENDPOINT: JSON.stringify("http://localhost:5000/api/graphql")
+    GRAPHQL_ENDPOINT: JSON.stringify("http://localhost:5000/api/graphql"),
+    WS_ENDPOINT: JSON.stringify("ws://localhost:5000/api/graphql"),
   }),
   new webpack.optimize.OccurrenceOrderPlugin(),
   new ExtractTextPlugin({
