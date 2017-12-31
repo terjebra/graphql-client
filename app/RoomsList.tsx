@@ -14,7 +14,6 @@ type GetRoomsQuery = {
 
 type Props = GetRoomsQuery & QueryProps;
 
-type Variables = {};
 const GetRooms = gql`
   query GetRooms {
     rooms {
@@ -35,7 +34,7 @@ const RoomsList: React.StatelessComponent<Props> = (props: Props) => {
   );
 };
 
-export default graphql<GetRoomsQuery, Variables, Props>(GetRooms, {
+export default graphql<GetRoomsQuery, {}, Props>(GetRooms, {
   props: ({ data }) => ({
     ...data
   })
