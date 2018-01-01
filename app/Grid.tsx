@@ -2,16 +2,27 @@ import * as React from "react";
 
 import styled from "styled-components";
 
-const PageGrid = styled.div`
+export const PageGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(11, 1fr);
-  grid-template-rows: repeat(2, 100px auto 20%);
-  grid-gap: 10px;
-  border: 1px black;
+  grid-template-rows: 1fr 150px;
+  @media only screen and (min-width: 768px) {
+    grid-template-columns: 1fr 150px;
+    grid-template-areas:
+      "content  sidebar"
+      "content  sidebar";
+  }
+  @media only screen and (max-width: 767px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "content"
+      "sidebar";
+  }
 `;
 
-const Column = styled.div`
-  grid-column: 1 / 3;
-  grid-row: 1;
+export const Content = styled.div`
+  grid-area: content;
 `;
-export default PageGrid;
+
+export const SideBar = styled.div`
+  grid-area: sidebar;
+`;

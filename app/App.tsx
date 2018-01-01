@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 
 import RoomsList from "./RoomsList";
 import RoomsNotifications from "./RoomsNotifications";
+import { PageGrid, SideBar, Content } from "./Grid";
 
 type Props = {};
 export default class App extends React.Component<Props> {
@@ -13,10 +14,14 @@ export default class App extends React.Component<Props> {
 
   render() {
     return (
-      <div>
-        <RoomsList />
-        <RoomsNotifications />
-      </div>
+      <PageGrid>
+        <Content>
+          <RoomsList />
+        </Content>
+        <SideBar>
+          <RoomsNotifications />
+        </SideBar>
+      </PageGrid>
     );
   }
 }

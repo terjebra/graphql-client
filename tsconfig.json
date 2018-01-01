@@ -4,9 +4,11 @@
     "target": "es6",
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false,
+    "strict": true,
     "sourceMap": true,
     "outDir": "./build",
+    "skipLibCheck": true,
+    "noImplicitReturns": true,
     "lib": [
       "es5",
       "es6",

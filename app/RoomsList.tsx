@@ -26,11 +26,14 @@ const GetRooms = gql`
 const RoomsList: React.StatelessComponent<Props> = (props: Props) => {
   if (props.loading) return <div>Loading</div>;
   return (
-    <ul>
-      {props.rooms.map((room: Room) => {
-        return <li key={room.id}>{room.name}</li>;
-      })}
-    </ul>
+    <div>
+      <div>{"Rooms"}</div>
+      <ul>
+        {props.rooms.map((room: Room) => {
+          return <li key={room.id}>{room.name}</li>;
+        })}
+      </ul>
+    </div>
   );
 };
 
