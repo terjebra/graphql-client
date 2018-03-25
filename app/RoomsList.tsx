@@ -1,7 +1,6 @@
 import * as React from "react";
-import { graphql, QueryProps } from "react-apollo";
+import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import { SFC } from "react";
 
 type Room = {
   id: string;
@@ -12,9 +11,7 @@ type GetRoomsQuery = {
   rooms: Array<Room>;
 };
 
-type Props = GetRoomsQuery & QueryProps;
-
-const GetRooms = gql`
+const GET_ROOMS = gql`
   query GetRooms {
     rooms {
       id
@@ -23,22 +20,30 @@ const GetRooms = gql`
   }
 `;
 
-const RoomsList: React.StatelessComponent<Props> = (props: Props) => {
-  if (props.loading) return <div>Loading</div>;
+class RoomsQuery extends Query<GetRoomsQuery, {}> {}
+
+const RoomsList: React.StatelessComponent<{}> = () => {
   return (
-    <div>
-      <div>{"Rooms"}</div>
-      <ul>
-        {props.rooms.map((room: Room) => {
-          return <li key={room.id}>{room.name}</li>;
-        })}
-      </ul>
-    </div>
+    <RoomsQuery query={GET_ROOMS}>
+      {({ loading, data, error }) => {
+        if (loading) return <div>Loading</div>;
+        return (
+          <div>
+            <div>{"Rooms"}</div>
+            <ul>
+              {data ? (
+                data.rooms.map((room: Room) => {
+                  return <li key={room.id}>{room.name}</li>;
+                })
+              ) : (
+                <div />
+              )}
+            </ul>
+          </div>
+        );
+      }}
+    </RoomsQuery>
   );
 };
 
-export default graphql<GetRoomsQuery, {}, Props>(GetRooms, {
-  props: ({ data }) => ({
-    ...data
-  })
-})(RoomsList);
+export default RoomsList;

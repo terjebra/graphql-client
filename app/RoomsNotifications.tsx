@@ -1,20 +1,17 @@
 import * as React from "react";
-import { graphql, QueryProps } from "react-apollo";
+import { Subscription } from "react-apollo";
 import gql from "graphql-tag";
-import { SFC } from "react";
 
 type Room = {
   id: string;
   name: string;
 };
 
-type RoomRegisteredSubscription = {
+type RoomRegistered = {
   roomRegistered: Room;
 };
 
-type Props = RoomRegisteredSubscription & QueryProps;
-
-const RoomRegistered = gql`
+const ROOM_REGISTERED = gql`
   subscription RoomRegistered {
     roomRegistered {
       id
@@ -23,25 +20,29 @@ const RoomRegistered = gql`
   }
 `;
 
-class RoomsNotification extends React.Component<Props, {}> {
-  render() {
-    return (
-      <div>
-        <div>{"Notifications"}</div>
-        <ul>
-          {this.props.roomRegistered && (
-            <li key={this.props.roomRegistered.id}>
-              {this.props.roomRegistered.name}
-            </li>
-          )}
-        </ul>
-      </div>
-    );
-  }
-}
+class RoomsNotificationSubscription extends Subscription<RoomRegistered, {}> {}
 
-export default graphql<RoomRegisteredSubscription, {}, Props>(RoomRegistered, {
-  props: ({ data }) => ({
-    ...data
-  })
-})(RoomsNotification);
+const RoomsNotification: React.StatelessComponent<{}> = () => {
+  return (
+    <RoomsNotificationSubscription subscription={ROOM_REGISTERED}>
+      {result => {
+        return (
+          <div>
+            <div>{"Notifications"}</div>
+            <ul>
+              {result && result.data ? (
+                <li key={result.data.roomRegistered.id}>
+                  {result.data.roomRegistered.name}
+                </li>
+              ) : (
+                <div />
+              )}
+            </ul>
+          </div>
+        );
+      }}
+    </RoomsNotificationSubscription>
+  );
+};
+
+export default RoomsNotification;
